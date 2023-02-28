@@ -5,6 +5,7 @@ const Comment = require('./models/comments')
 const cors = require('cors')
 const bodyParser = require('body-parser');
 const app = express()
+require("dotenv").config();
 const fs = require('fs')
 app.use(cors())
 mongoose.connect('mongodb+srv://rajessh781:R%40jesh2512@personal-blog.dtfxubi.mongodb.net/CodeBlog', { useNewUrlParser: true })
@@ -100,7 +101,8 @@ app.post('/comments/add', async (req, res) => {
     const blog_id = req.body.blog_id
     const name = req.body.name
     const email = req.body.email
-    const Post = new Comment({ blog_id: blog_id, name: name, email: email })
+    const comment=req.body.comment
+    const Post = new Comment({ blog_id: blog_id, name: name, email: email,comment:comment })
     await Post.save();
     res.send("Comments Posted")
 })
@@ -115,6 +117,6 @@ app.get('/comments/', async (req, res) => {
     })
 })
 
-app.listen(3001, () => {
+app.listen(process.env.PORT||3001, () => {
     console.log("Youre COnnected")
 })
